@@ -8,14 +8,15 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
-  View,
-} from 'react-native';
+  View
+} from "react-native";
 
 import {
   Colors,
@@ -24,6 +25,8 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import {NativeModules} from 'react-native';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -57,6 +60,11 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
+  const {ContainerAppRouter} = NativeModules;
+
+  const onPress = () => {
+    ContainerAppRouter.routeToContainerApp();
+  };
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -71,25 +79,20 @@ function App(): JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
+          <Section title="React Native">
+            <Text style={styles.highlight}>Hello SuperApp World !</Text>
           </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
+          <Section title="Two way Nav!">
+            <Button
+              title="Main Activity"
+              color="#841584"
+              onPress={onPress}
+            />
           </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
         </View>
       </ScrollView>
     </SafeAreaView>
